@@ -1,0 +1,21 @@
+# Environment
+.env
+
+# Auth data
+/.auth/
+/e2e/.auth/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# History / cache
+.history
+/playwright/.cache/
+/node_modules/
+
+# Test results & reports
+/test-results/
+/playwright-report/
+/blob-report/
