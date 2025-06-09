@@ -2,15 +2,33 @@
   "name": "ci_vezba",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write ."
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^9.28.0",
     "@faker-js/faker": "^9.8.0",
     "@playwright/test": "^1.52.0",
-    "@types/node": "^22.15.30"
+    "@types/node": "^22.15.30",
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
+    "@typescript-eslint/parser": "^8.33.1",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-playwright": "^2.2.0",
+    "eslint-plugin-prettier": "^5.4.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^16.2.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "typescript-eslint": "^8.33.1"
   },
   "dependencies": {
     "dotenv": "^16.5.0"
