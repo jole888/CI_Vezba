@@ -14,7 +14,9 @@
     "eslint.config.mjs",
     ".prettierrc.js",
     "global-setup.ts",
-    "keyvault-secrets.ts"
+    "keyvault-secrets.ts",
+    "src",
+    "playwright.config.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
