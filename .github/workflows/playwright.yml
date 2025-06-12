@@ -9,7 +9,7 @@ on:
     - cron: '0 2 * * *'
 
 jobs:
-  build-and-lint:
+  run-playwright-tests:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
@@ -32,7 +32,7 @@ jobs:
         run: npm run lint
 
       - name: Run tests
-        run: npm run e2e:headed
+        run: npm run e2e:headless
 
   nightly-build:
     if: github.event_name == 'schedule'
@@ -57,4 +57,4 @@ jobs:
         run: npm run lint
 
       - name: Run tests
-        run: npm run e2e:headed
+        run: npm run e2e:headless
