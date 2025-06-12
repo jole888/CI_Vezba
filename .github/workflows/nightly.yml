@@ -33,3 +33,12 @@ jobs:
 
       - name: Run tests
         run: npm run e2e:headless
+
+      - name: Generate Playwright HTML report
+        run: npx playwright show-report --output=playwright-report
+
+      - name: Upload HTML report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report
