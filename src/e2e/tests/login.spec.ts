@@ -1,31 +1,38 @@
-import { test } from '@playwright/test'
+import { test } from '@playwright/test';
 
-import { LoginPage, ProjectsPage } from '../pages'
+import { LoginPage, ProjectsPage } from '../pages';
 
 test.describe('Log In tests', () => {
-  let loginPage: LoginPage
-  let projectsPage: ProjectsPage
+  let loginPage: LoginPage;
+  let projectsPage: ProjectsPage;
 
-  const login_email = process.env.EMAIL as string
-  const login_password = process.env.PASSWORD as string
-  const url = process.env.URL as string
+  const login_email = process.env.EMAIL as string;
+  const login_password = process.env.PASSWORD as string;
+  const url = process.env.URL ?? "";
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page)
-    projectsPage = new ProjectsPage(page)
-  })
+    loginPage = new LoginPage(page);
+    projectsPage = new ProjectsPage(page);
+
+    await loginPage.goToPage(url);
+    await loginPage.loadPage();
+  });
+
   test('Negative Log In, Wrong Email', async () => {
-    await loginPage.typeEmailandPassword('wqwqwq@sa.sa', login_password)
-    await loginPage.wrongEmailPassword()
-  })
+    await loginPage.typeEmailandPassword('wqwqwq@sa.sa', login_password);
+    await loginPage.clickSigninButton();
+    await loginPage.wrongEmailPassword();
+  });
 
   test('Negative Log In, Wrong Password', async () => {
-    await loginPage.typeEmailandPassword(login_email, 'login_password')
-    await loginPage.wrongEmailPassword()
-  })
+    await loginPage.typeEmailandPassword(login_email, 'login_password');
+    await loginPage.clickSigninButton();
+    await loginPage.wrongEmailPassword();
+  });
 
   test('Positive Log In', async () => {
-    await loginPage.typeEmailandPassword(login_email, login_password)
-    await projectsPage.loadPage()
-  })
-})
+    await loginPage.typeEmailandPassword(login_email, login_password);
+    await loginPage.clickSigninButton();
+    await projectsPage.loadPage();
+  });
+});

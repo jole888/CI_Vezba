@@ -7,7 +7,11 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --check .",
-    "format:fix": "prettier --write ."
+    "format:fix": "prettier --write .",
+    "e2e:headless": "npx playwright test",
+    "e2e:headed": "npx playwright test --headed",
+    "e2e:chrome-headed": "npx playwright test --project=Chromium --headed",
+    "e2e:chrome-headless": "npx playwright test --project=Chromium"
   },
   "keywords": [],
   "author": "",

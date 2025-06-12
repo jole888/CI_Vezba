@@ -39,6 +39,7 @@ export default [
       'playwright/no-focused-test': 'error',
       'playwright/no-wait-for-timeout': 'warn',
       'playwright/no-eval': 'error',
+      'playwright/expect-expect': "off"
     },
   },
 ]
