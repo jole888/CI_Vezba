@@ -114,12 +114,12 @@ jobs:
         with:
           payload: |
             {
-              "text": "*✅ Playwright Tests Completed*",
+              "text": "*🎭 Playwright Tests Completed*",
               "attachments": [
                 {
                   "color": "${{ needs.run-playwright-tests.result == 'success' && 'good' || 'danger' }}",
-                  "title": "Test Report Available",
-                  "title_link": "https://jole888.github.io/CI_Vezba/",
+                  "title": "📄 View Playwright HTML Report",
+                  "title_link": "https://jole888.github.io/CI_Vezba/index.html",
                   "fields": [
                     {
                       "title": "Status",
@@ -130,6 +130,11 @@ jobs:
                       "title": "Branch",
                       "value": "${{ github.ref }}",
                       "short": true
+                    },
+                    {
+                      "title": "Download Report",
+                      "value": "Go to GitHub → Actions → Select latest run → Scroll to Artifacts → Download `playwright-report`",
+                      "short": false
                     }
                   ]
                 }
