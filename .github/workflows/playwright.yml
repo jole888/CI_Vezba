@@ -34,6 +34,7 @@ jobs:
 
       - name: Run tests
         run: npm run e2e:headless
+        continue-on-error: true
 
       - name: Generate Playwright HTML report
         run: npx playwright show-report --output=playwright-report

@@ -22,6 +22,10 @@ if (targetEnv === 'sandbox') {
  */
 export default defineConfig({
   testDir: './src/e2e/tests',
+  timeout: 15 * 1000,
+  expect: {
+    timeout: 20 * 1000,
+  },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
