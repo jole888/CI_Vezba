@@ -8,6 +8,15 @@ import dotenv from 'dotenv'
 // import path from 'path';
 dotenv.config()
 
+const targetEnv = process.env.TARGET_ENVIRONMENT;
+if (targetEnv === 'sandbox') {
+  dotenv.config({ path: '.env.sandy' });
+} else if (targetEnv === 'staging') {
+  dotenv.config({ path: '.env.staging' });
+} else {
+  throw new Error(`Unsupported TARGET_ENVIRONMENT: ${targetEnv}`);
+}
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */

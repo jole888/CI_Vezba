@@ -13,7 +13,21 @@ jobs:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
-    steps:
+parameters:
+  - name: target_environment
+    displayName: Target API Environment
+    type: string
+    default: sandbox
+    values:
+    - sandbox
+    - staging
+
+variables:
+- group: uv-playwright-pipeline-variables
+
+name: Playwright_Tests_Execution_${{parameters.target_environment}}_$(Date:yyyyMMdd)$(Rev:r)
+
+steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
@@ -32,9 +46,12 @@ jobs:
         run: npm run lint
 
       - name: Run tests
+        env:
+          EMAIL: ${{ secrets.SANDY_EMAIL }}
+          PASSWORD: ${{ secrets.SANDY_PASSWORD }}
         run: npm run e2e:headless
 
-  nightly-build:
+nightly-build:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
 
@@ -57,4 +74,6 @@ jobs:
         run: npm run lint
 
       - name: Run tests
+        EMAIL: ${{ secrets.SANDY_EMAIL }}
+        PASSWORD: ${{ secrets.SANDY_PASSWORD }}
         run: npm run e2e:headless
