@@ -56,7 +56,7 @@ jobs:
           echo "- 📦 Or download the full report from the [Artifacts section](#artifacts) below." >> $GITHUB_STEP_SUMMARY
           echo "- 🖥️ To preview locally, open \`index.html\` in your browser." >> $GITHUB_STEP_SUMMARY
 
-            - name: Send Slack notification
+      - name: Send Slack notification
         if: always()
         uses: slackapi/slack-github-action@v1.25.0
         with:
