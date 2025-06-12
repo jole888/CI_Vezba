@@ -1,16 +1,23 @@
-name: Playwright CI Tests
+name: Playwright Manual Tests
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: 'Target Environment'
+        required: true
+        default: 'sandbox'
+        type: choice
+        options:
+          - sandbox
+          - staging
 
 jobs:
-  run-playwright-tests:
+  manual-run:
     runs-on: ubuntu-latest
 
     env:
-      TARGET_ENVIRONMENT: sandbox
+      TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
       EMAIL: ${{ secrets.SANDY_EMAIL }}
       PASSWORD: ${{ secrets.SANDY_PASSWORD }}
 

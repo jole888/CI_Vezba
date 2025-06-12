@@ -1,12 +1,11 @@
-name: Playwright CI Tests
+name: Playwright Nightly Tests
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 2 * * *'  # 3:00 AM CET
 
 jobs:
-  run-playwright-tests:
+  nightly-build:
     runs-on: ubuntu-latest
 
     env:
