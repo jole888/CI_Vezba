@@ -46,8 +46,9 @@ jobs:
         if: always()
         run: |
           echo "### ✅ Playwright HTML report generated" >> $GITHUB_STEP_SUMMARY
-          echo "- Download the full report from the [Artifacts section](#artifacts) below." >> $GITHUB_STEP_SUMMARY
-          echo "- Or view it on [GitHub Pages](https://jole888.github.io/CI_Vezba)" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔗 [View Report on GitHub Pages](https://jole888.github.io/CI_Vezba/)" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 Or download the full report from the [Artifacts section](#artifacts) below." >> $GITHUB_STEP_SUMMARY
+          echo "- 🖥️ To preview locally, open \`index.html\` in your browser." >> $GITHUB_STEP_SUMMARY
 
   deploy-playwright-report:
     needs: run-playwright-tests
