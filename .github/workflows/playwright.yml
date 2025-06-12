@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   run-playwright-tests:
     runs-on: ubuntu-latest
@@ -48,7 +53,7 @@ jobs:
         run: |
           echo "### ✅ Playwright HTML report generated" >> $GITHUB_STEP_SUMMARY
           echo "- Download the full report from the [Artifacts section](#artifacts) below." >> $GITHUB_STEP_SUMMARY
-          echo "- After downloading, open \`index.html\` locally to view the test results." >> $GITHUB_STEP_SUMMARY
+          echo "- Or view it on [GitHub Pages](https://jole888.github.io/CI_Vezba)" >> $GITHUB_STEP_SUMMARY
 
   deploy-playwright-report:
     needs: run-playwright-tests
@@ -69,7 +74,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
           publish_dir: ./playwright-report
+          publish_branch: gh-pages
           destination_dir: .
-          force_orphan: true
