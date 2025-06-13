@@ -44,7 +44,7 @@ jobs:
       - name: Parse Playwright test summary
         if: always()
         run: |
-          node parse-playwright-results.js
+          node parse-playwright-results.ts
         id: parse
 
       - name: Upload report as artifact
