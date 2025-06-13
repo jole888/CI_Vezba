@@ -57,7 +57,7 @@ try {
     passed,
     failed,
     skipped,
-    flaky,
+    flaky
   };
 
   fs.writeFileSync("test-summary.json", JSON.stringify(summary, null, 2));

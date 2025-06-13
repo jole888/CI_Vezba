@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
+    "target": "ES2020",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "./dist",
     "strict": true,
@@ -18,6 +18,6 @@
     "src",
     "playwright.config.ts",
     "**/*.ts"
-  ],
+,   "parse-playwright-results.ts"  ],
   "exclude": ["node_modules", "dist"]
 }

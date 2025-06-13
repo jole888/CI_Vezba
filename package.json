@@ -8,6 +8,7 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
+    "parse-summary": "ts-node parse-playwright-results.ts",
     "e2e:headless": "npx playwright test",
     "e2e:headed": "npx playwright test --headed",
     "e2e:chrome-headed": "npx playwright test --project=Chromium --headed",
@@ -33,6 +34,8 @@
     "nodemailer": "^7.0.3",
     "prettier": "^3.5.3",
     "prettier-plugin-organize-imports": "^4.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.1"
   },
   "dependencies": {
