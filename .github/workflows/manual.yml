@@ -54,7 +54,7 @@ jobs:
         if: always()
         run: |
           echo "### ✅ Playwright HTML report generated" >> $GITHUB_STEP_SUMMARY
-          echo "- 🔗 [View Report on GitHub Pages](https://jole888.github.io/CI_Vezba/)" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔗 [View Report on GitHub Pages](https://jole888.github.io/CI_Vezba/index.html)" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 Or download the full report from the [Artifacts section](#artifacts) below." >> $GITHUB_STEP_SUMMARY
           echo "- 🖥️ To preview locally, open \`index.html\` in your browser." >> $GITHUB_STEP_SUMMARY
 
@@ -80,3 +80,42 @@ jobs:
           publish_dir: ./playwright-report
           publish_branch: gh-pages
           destination_dir: .
+
+      - name: Notify Slack with report link
+        uses: slackapi/slack-github-action@v1.25.0
+        with:
+          payload: |
+            {
+              "text": "*🎭 Playwright Tests Completed*",
+              "attachments": [
+                {
+                  "color": "${{ needs.run-playwright-tests.result == 'success' && 'good' || 'danger' }}",
+                  "title": "📄 Playwright Test Report",
+                  "title_link": "https://jole888.github.io/CI_Vezba/index.html",
+                  "fields": [
+                    {
+                      "title": "Status",
+                      "value": "${{ needs.run-playwright-tests.result }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.ref_name }}",
+                      "short": true
+                    },
+                    {
+                      "title": "HTML Report",
+                      "value": "<https://jole888.github.io/CI_Vezba/index.html|View on GitHub Pages>",
+                      "short": false
+                    },
+                    {
+                      "title": "Download Report",
+                      "value": "Go to *GitHub → Actions → Playwright CI Tests → Latest run → Artifacts → playwright-report.zip*",
+                      "short": false
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
