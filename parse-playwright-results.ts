@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+const fs = require("fs");
+const path = require("path");
 
 interface Test {
   outcome: "expected" | "unexpected" | "skipped" | "flaky";
@@ -14,10 +14,10 @@ interface Manifest {
   suites?: Suite[];
 }
 
-const manifestPath = path.join("playwright-report", "manifest.json");
+const reportPath = path.join("playwright-report", ".last-run.json");
 
 try {
-  const data = fs.readFileSync(manifestPath, "utf8");
+  const data = fs.readFileSync(reportPath, "utf8");
   const manifest: Manifest = JSON.parse(data);
   const suites = manifest.suites || [];
 
@@ -57,12 +57,12 @@ try {
     passed,
     failed,
     skipped,
-    flaky
+    flaky,
   };
 
   fs.writeFileSync("test-summary.json", JSON.stringify(summary, null, 2));
   console.log("✅ Test summary generated.");
 } catch (err) {
-  console.error("❌ Failed to parse manifest.json:", err);
+  console.error("❌ Failed to parse .last-run.json:", err);
   process.exit(1);
 }
