@@ -16,7 +16,8 @@
     "global-setup.ts",
     "keyvault-secrets.ts",
     "src",
-    "playwright.config.ts"
+    "playwright.config.ts",
+    "**/*.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
