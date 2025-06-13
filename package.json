@@ -2,7 +2,7 @@
   "name": "ci_vezba",
   "version": "1.0.0",
   "main": "index.js",
-  "module": "ESNext",
+  "module": "module",
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
