@@ -16,9 +16,9 @@
     ".prettierrc.js",
     "global-setup.ts",
     "keyvault-secrets.ts",
-    "src",
     "playwright.config.ts",
+    "parse-playwright-results.ts",
     "**/*.ts"
-,   "parse-playwright-results.js"  ],
+  ],
   "exclude": ["node_modules", "dist"]
 }

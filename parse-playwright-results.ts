@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import * as core from "@actions/core"; // ← DODATO
+import * as core from "@actions/core";
 
 interface Test {
   outcome: "expected" | "unexpected" | "skipped" | "flaky";
@@ -18,6 +18,12 @@ interface Manifest {
 const reportPath = path.join("playwright-report", ".last-run.json");
 
 try {
+  if (!fs.existsSync(reportPath)) {
+    core.warning(`⚠️ Report file not found at path: ${reportPath}`);
+    core.setOutput("summary", JSON.stringify({ total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 }));
+    process.exit(0); // Graceful exit
+  }
+
   const data = fs.readFileSync(reportPath, "utf8");
   const manifest: Manifest = JSON.parse(data);
   const suites = manifest.suites || [];
@@ -55,11 +61,13 @@ try {
 
   const summary = { total, passed, failed, skipped, flaky };
 
-  // Snimi u lokalni fajl (opciono)
   fs.writeFileSync("test-summary.json", JSON.stringify(summary, null, 2));
 
-  // 🔥 POSTAVI OUTPUT ZA GITHUB ACTION
-  core.setOutput("summary", JSON.stringify(summary));
+  try {
+    core.setOutput("summary", JSON.stringify(summary));
+  } catch (outputErr) {
+    core.warning(`⚠️ Failed to set GitHub Actions output: ${outputErr}`);
+  }
 
   console.log("✅ Test summary generated.");
 } catch (err) {

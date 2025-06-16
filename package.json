@@ -2,7 +2,6 @@
   "name": "ci_vezba",
   "version": "1.0.0",
   "main": "index.js",
-  "module": "module",
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -12,12 +11,14 @@
     "e2e:headless": "npx playwright test",
     "e2e:headed": "npx playwright test --headed",
     "e2e:chrome-headed": "npx playwright test --project=Chromium --headed",
-    "e2e:chrome-headless": "npx playwright test --project=Chromium"
+    "e2e:chrome-headless": "npx playwright test --project=Chromium",
+    "install:playwright": "npx playwright install --with-deps"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
+  "type": "module",
   "devDependencies": {
     "@eslint/js": "^9.28.0",
     "@faker-js/faker": "^9.8.0",
@@ -36,7 +37,8 @@
     "prettier-plugin-organize-imports": "^4.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.33.1"
+    "typescript-eslint": "^8.33.1",
+    "playwright": "^1.53.0"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",

@@ -41,14 +41,11 @@ jobs:
         run: npm run e2e:headless
         continue-on-error: true
 
-      - name: Parse Playwright test
-        run: npm run parse-summary
-
       - name: Parse Playwright test summary
         if: always()
+        id: parse
         run: |
           npx ts-node parse-playwright-results.ts
-        id: parse
 
       - name: Upload report as artifact
         if: always()
