@@ -43,6 +43,15 @@ jobs:
         run: npm run e2e:headless
         continue-on-error: true
 
+      - name: Parse Playwright test
+        run: npm run parse-summary
+
+      - name: Parse Playwright test summary
+        if: always()
+        run: |
+          npx ts-node parse-playwright-results.ts
+        id: parse
+
       - name: Upload report as artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -81,16 +90,17 @@ jobs:
           publish_branch: gh-pages
           destination_dir: .
 
-      - name: Notify Slack with report link
+      - name: Send Slack notification with stats
+        if: always()
         uses: slackapi/slack-github-action@v1.25.0
         with:
           payload: |
             {
-              "text": "*🎭 Playwright Tests Completed*",
+              "text": "*🎭 Playwright Tests Report*",
               "attachments": [
                 {
                   "color": "${{ needs.run-playwright-tests.result == 'success' && 'good' || 'danger' }}",
-                  "title": "📄 Playwright Test Report",
+                  "title": "📄 View Full Report",
                   "title_link": "https://jole888.github.io/CI_Vezba/index.html",
                   "fields": [
                     {
@@ -100,18 +110,33 @@ jobs:
                     },
                     {
                       "title": "Branch",
-                      "value": "${{ github.ref_name }}",
+                      "value": "${{ github.ref }}",
                       "short": true
                     },
                     {
-                      "title": "HTML Report",
-                      "value": "<https://jole888.github.io/CI_Vezba/index.html|View on GitHub Pages>",
-                      "short": false
+                      "title": "✅ Passed",
+                      "value": "${{ fromJson(steps.parse.outputs.summary).passed }}",
+                      "short": true
                     },
                     {
-                      "title": "Download Report",
-                      "value": "Go to *GitHub → Actions → Playwright CI Tests → Latest run → Artifacts → playwright-report.zip*",
-                      "short": false
+                      "title": "❌ Failed",
+                      "value": "${{ fromJson(steps.parse.outputs.summary).failed }}",
+                      "short": true
+                    },
+                    {
+                      "title": "⚠️ Skipped",
+                      "value": "${{ fromJson(steps.parse.outputs.summary).skipped }}",
+                      "short": true
+                    },
+                    {
+                      "title": "🤷 Flaky",
+                      "value": "${{ fromJson(steps.parse.outputs.summary).flaky }}",
+                      "short": true
+                    },
+                    {
+                      "title": "🔢 Total",
+                      "value": "${{ fromJson(steps.parse.outputs.summary).total }}",
+                      "short": true
                     }
                   ]
                 }
