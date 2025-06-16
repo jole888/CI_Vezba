@@ -113,27 +113,27 @@ jobs:
                     },
                     {
                       "title": "✅ Passed",
-                      "value": "${{ fromJson(steps.parse.outputs.summary).passed }}",
+                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').passed || '0' }}",
                       "short": true
                     },
                     {
                       "title": "❌ Failed",
-                      "value": "${{ fromJson(steps.parse.outputs.summary).failed }}",
+                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').failed || '0' }}",
                       "short": true
                     },
                     {
                       "title": "⚠️ Skipped",
-                      "value": "${{ fromJson(steps.parse.outputs.summary).skipped }}",
+                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').skipped || '0' }}",
                       "short": true
                     },
                     {
                       "title": "🤷 Flaky",
-                      "value": "${{ fromJson(steps.parse.outputs.summary).flaky }}",
+                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').flaky || '0' }}",
                       "short": true
                     },
                     {
                       "title": "🔢 Total",
-                      "value": "${{ fromJson(steps.parse.outputs.summary).total }}",
+                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').total || '0' }}",
                       "short": true
                     }
                   ]

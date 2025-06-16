@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import * as core from "@actions/core"; // ← DODATO
 
 interface Test {
   outcome: "expected" | "unexpected" | "skipped" | "flaky";
@@ -52,17 +53,15 @@ try {
 
   traverse(suites);
 
-  const summary = {
-    total,
-    passed,
-    failed,
-    skipped,
-    flaky,
-  };
+  const summary = { total, passed, failed, skipped, flaky };
 
+  // Snimi u lokalni fajl (opciono)
   fs.writeFileSync("test-summary.json", JSON.stringify(summary, null, 2));
+
+  // 🔥 POSTAVI OUTPUT ZA GITHUB ACTION
+  core.setOutput("summary", JSON.stringify(summary));
+
   console.log("✅ Test summary generated.");
 } catch (err) {
-  console.error("❌ Failed to parse .last-run.json:", err);
-  process.exit(1);
+  core.setFailed(`❌ Failed to parse .last-run.json: ${err}`);
 }
