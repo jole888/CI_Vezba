@@ -43,9 +43,8 @@ jobs:
 
       - name: Parse Playwright test summary
         if: always()
+        run: node --loader ts-node/esm parse-playwright-results.ts
         id: parse
-        run: |
-          npx ts-node parse-playwright-results.ts
 
       - name: Upload report as artifact
         if: always()

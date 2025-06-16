@@ -7,7 +7,7 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "parse-summary": "ts-node parse-playwright-results.ts",
+    "parse-summary": "node --loader ts-node/esm parse-playwright-results.ts",
     "e2e:headless": "npx playwright test",
     "e2e:headed": "npx playwright test --headed",
     "e2e:chrome-headed": "npx playwright test --project=Chromium --headed",
@@ -33,15 +33,16 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^16.2.0",
     "nodemailer": "^7.0.3",
+    "playwright": "^1.53.0",
     "prettier": "^3.5.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.33.1",
-    "playwright": "^1.53.0"
+    "typescript-eslint": "^8.33.1"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "dotenv": "^16.5.0"
+    "dotenv": "^16.5.0",
+    "tsconfig-paths": "^4.2.0"
   }
 }
