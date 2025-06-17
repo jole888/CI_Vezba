@@ -7,7 +7,7 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "parse-summary": "ts-node --transpile-only parse-playwright-results.ts",
+    "parse-summary": "ts-node --transpile-only --compiler-options '{\"module\":\"CommonJS\"}' parse-playwright-results.ts",
     "e2e:headless": "npx playwright test",
     "e2e:headed": "npx playwright test --headed",
     "e2e:chrome-headed": "npx playwright test --project=Chromium --headed",
