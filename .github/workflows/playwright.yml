@@ -1,3 +1,5 @@
+---
+# .github/workflows/playwright.yml
 name: Playwright CI Tests
 
 on:
@@ -71,6 +73,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Download report artifact
         uses: actions/download-artifact@v4
         with:
@@ -80,11 +85,20 @@ jobs:
       - name: Read test summary
         id: read-summary
         run: |
-          echo "total=$(jq '.total' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
-          echo "passed=$(jq '.passed' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
-          echo "failed=$(jq '.failed' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
-          echo "skipped=$(jq '.skipped' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
-          echo "flaky=$(jq '.flaky' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
+          echo "Reading test-summary.json..."
+          cat playwright-report/test-summary.json
+
+          total=$(jq '.total' playwright-report/test-summary.json)
+          passed=$(jq '.passed' playwright-report/test-summary.json)
+          failed=$(jq '.failed' playwright-report/test-summary.json)
+          skipped=$(jq '.skipped' playwright-report/test-summary.json)
+          flaky=$(jq '.flaky' playwright-report/test-summary.json)
+
+          echo "total=$total" >> $GITHUB_OUTPUT
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+          echo "failed=$failed" >> $GITHUB_OUTPUT
+          echo "skipped=$skipped" >> $GITHUB_OUTPUT
+          echo "flaky=$flaky" >> $GITHUB_OUTPUT
 
       - name: Deploy Playwright report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -107,41 +121,13 @@ jobs:
                   "title": "📄 View Full Report",
                   "title_link": "https://jole888.github.io/CI_Vezba/index.html",
                   "fields": [
-                    {
-                      "title": "Status",
-                      "value": "${{ needs.run-playwright-tests.result }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Branch",
-                      "value": "${{ github.ref }}",
-                      "short": true
-                    },
-                    {
-                      "title": "✅ Passed",
-                      "value": "${{ steps.read-summary.outputs.passed }}",
-                      "short": true
-                    },
-                    {
-                      "title": "❌ Failed",
-                      "value": "${{ steps.read-summary.outputs.failed }}",
-                      "short": true
-                    },
-                    {
-                      "title": "⚠️ Skipped",
-                      "value": "${{ steps.read-summary.outputs.skipped }}",
-                      "short": true
-                    },
-                    {
-                      "title": "🤷 Flaky",
-                      "value": "${{ steps.read-summary.outputs.flaky }}",
-                      "short": true
-                    },
-                    {
-                      "title": "🔢 Total",
-                      "value": "${{ steps.read-summary.outputs.total }}",
-                      "short": true
-                    }
+                    { "title": "Status", "value": "${{ needs.run-playwright-tests.result }}", "short": true },
+                    { "title": "Branch", "value": "${{ github.ref }}", "short": true },
+                    { "title": "✅ Passed", "value": "${{ steps.read-summary.outputs.passed }}", "short": true },
+                    { "title": "❌ Failed", "value": "${{ steps.read-summary.outputs.failed }}", "short": true },
+                    { "title": "⚠️ Skipped", "value": "${{ steps.read-summary.outputs.skipped }}", "short": true },
+                    { "title": "🤷 Flaky", "value": "${{ steps.read-summary.outputs.flaky }}", "short": true },
+                    { "title": "🔢 Total", "value": "${{ steps.read-summary.outputs.total }}", "short": true }
                   ]
                 }
               ]

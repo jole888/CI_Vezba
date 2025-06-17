@@ -5,8 +5,12 @@ const reportPath = path.join("playwright-report", "report.json");
 
 const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
 
+type TestResult = {
+  status: "passed" | "failed" | "skipped" | "timedOut" | "interrupted" | "flaky";
+};
+
 type Test = {
-  status: "expected" | "unexpected" | "skipped" | "flaky";
+  results: TestResult[];
 };
 
 type Spec = {
@@ -35,11 +39,21 @@ function parseSummary(report: ReportJson) {
       for (const spec of suite.specs || []) {
         for (const test of spec.tests || []) {
           total++;
-          switch (test.status) {
-            case "expected": passed++; break;
-            case "unexpected": failed++; break;
-            case "skipped": skipped++; break;
-            case "flaky": flaky++; break;
+          const result = test.results?.[0];
+          if (!result) continue;
+          switch (result.status) {
+            case "passed":
+              passed++;
+              break;
+            case "failed":
+              failed++;
+              break;
+            case "skipped":
+              skipped++;
+              break;
+            case "flaky":
+              flaky++;
+              break;
           }
         }
       }
@@ -47,7 +61,7 @@ function parseSummary(report: ReportJson) {
   };
 
   if (!report?.suites?.length) {
-    console.warn("⚠️ No suites found in report.json");
+    console.warn("⚠️ No suites in report.json");
     return emptySummary;
   }
 
@@ -60,18 +74,24 @@ try {
     ? parseSummary(JSON.parse(fs.readFileSync(reportPath, "utf8")))
     : emptySummary;
 
-  const summaryString = JSON.stringify(summary);
+  const summaryString = JSON.stringify(summary, null, 2);
   fs.writeFileSync("test-summary.json", summaryString);
 
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${summaryString}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=${summary.passed}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed=${summary.failed}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `skipped=${summary.skipped}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `flaky=${summary.flaky}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `total=${summary.total}\n`);
   }
 
+  console.log("✅ Test summary written to test-summary.json");
   console.log(summaryString);
 } catch (err: any) {
   console.error(`❌ Failed to parse report: ${err.message}`);
-  const fallback = JSON.stringify(emptySummary);
-  console.log(fallback);
+  const fallback = JSON.stringify(emptySummary, null, 2);
+  fs.writeFileSync("test-summary.json", fallback);
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${fallback}\n`);
   }
