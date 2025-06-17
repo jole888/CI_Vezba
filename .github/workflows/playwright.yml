@@ -51,7 +51,10 @@ jobs:
       - name: Set summary output
         if: always()
         id: set-summary
-        run: echo "summary=$(cat test-summary.json)" >> $GITHUB_OUTPUT
+        run: |
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          cat test-summary.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Upload report as artifact
         if: always()
