@@ -43,8 +43,10 @@ jobs:
 
       - name: Parse Playwright test summary
         if: always()
-        run: npm run parse-summary
         id: parse
+        run: |
+          SUMMARY=$(node --require ts-node/register parse-playwright-results.ts)
+          echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
 
       - name: Upload report as artifact
         if: always()
@@ -109,27 +111,27 @@ jobs:
                     },
                     {
                       "title": "✅ Passed",
-                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').passed || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').passed || '0' }}",
                       "short": true
                     },
                     {
                       "title": "❌ Failed",
-                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').failed || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').failed || '0' }}",
                       "short": true
                     },
                     {
                       "title": "⚠️ Skipped",
-                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').skipped || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').skipped || '0' }}",
                       "short": true
                     },
                     {
                       "title": "🤷 Flaky",
-                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').flaky || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').flaky || '0' }}",
                       "short": true
                     },
                     {
                       "title": "🔢 Total",
-                      "value": "${{ fromJson(steps.parse.outputs.summary || '{}').total || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').total || '0' }}",
                       "short": true
                     }
                   ]

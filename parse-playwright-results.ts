@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
-import * as core from "@actions/core";
+
+const reportPath = path.join("playwright-report", ".last-run.json");
 
 interface Test {
   outcome: "expected" | "unexpected" | "skipped" | "flaky";
@@ -15,19 +16,7 @@ interface Manifest {
   suites?: Suite[];
 }
 
-const reportPath = path.join("playwright-report", ".last-run.json");
-
-try {
-  if (!fs.existsSync(reportPath)) {
-    core.warning(`⚠️ Report file not found at path: ${reportPath}`);
-    core.setOutput("summary", JSON.stringify({ total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 }));
-    process.exit(0); // Graceful exit
-  }
-
-  const data = fs.readFileSync(reportPath, "utf8");
-  const manifest: Manifest = JSON.parse(data);
-  const suites = manifest.suites || [];
-
+function parseSummary(manifest: Manifest) {
   let total = 0;
   let passed = 0;
   let failed = 0;
@@ -57,19 +46,33 @@ try {
     }
   };
 
-  traverse(suites);
+  traverse(manifest.suites || []);
+  return { total, passed, failed, skipped, flaky };
+}
 
-  const summary = { total, passed, failed, skipped, flaky };
-
-  fs.writeFileSync("test-summary.json", JSON.stringify(summary, null, 2));
-
-  try {
-    core.setOutput("summary", JSON.stringify(summary));
-  } catch (outputErr) {
-    core.warning(`⚠️ Failed to set GitHub Actions output: ${outputErr}`);
+try {
+  if (!fs.existsSync(reportPath)) {
+    const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
+    console.warn(`⚠️ Report not found at ${reportPath}`);
+    console.log(JSON.stringify(emptySummary));
+    process.exit(0);
   }
 
-  console.log("✅ Test summary generated.");
-} catch (err) {
-  core.setFailed(`❌ Failed to parse .last-run.json: ${err}`);
+  const data = fs.readFileSync(reportPath, "utf8");
+  const manifest: Manifest = JSON.parse(data);
+  const summary = parseSummary(manifest);
+
+  // Write to disk (optional)
+  fs.writeFileSync("test-summary.json", JSON.stringify(summary, null, 2));
+
+  // Output to GitHub Actions if available
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${JSON.stringify(summary)}\n`);
+  }
+
+  // Output to STDOUT for use in shell assignment
+  console.log(JSON.stringify(summary));
+} catch (err: any) {
+  console.error(`❌ Failed to parse report: ${err.message}`);
+  process.exit(1);
 }
