@@ -65,12 +65,15 @@ try {
   // Write to disk (optional)
   fs.writeFileSync("test-summary.json", JSON.stringify(summary, null, 2));
 
-  // Output to GitHub Actions if available
+  // Output to GitHub Actions if available (safe multiline format)
   if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${JSON.stringify(summary)}\n`);
+    fs.appendFileSync(
+      process.env.GITHUB_OUTPUT,
+      `summary<<EOF\n${JSON.stringify(summary)}\nEOF\n`
+    );
   }
 
-  // Output to STDOUT for use in shell assignment
+  // Output to STDOUT
   console.log(JSON.stringify(summary));
 } catch (err: any) {
   console.error(`❌ Failed to parse report: ${err.message}`);

@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npm run install:playwright
 
       - name: Run lint
         run: npm run lint
@@ -47,7 +47,7 @@ jobs:
       - name: Parse Playwright test summary
         if: always()
         id: parse
-        run: node --require ts-node/register parse-playwright-results.ts
+        run: npm run parse-summary
 
       - name: Upload report as artifact
         if: always()
@@ -61,7 +61,7 @@ jobs:
         run: |
           echo "### ✅ Playwright HTML report generated" >> $GITHUB_STEP_SUMMARY
           echo "- 🔗 [View Report on GitHub Pages](https://jole888.github.io/CI_Vezba/index.html)" >> $GITHUB_STEP_SUMMARY
-          echo "- 📦 Or download the full report from the [Artifacts section](#artifacts) below." >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 Download the full report from the Artifacts section below." >> $GITHUB_STEP_SUMMARY
           echo "- 🖥️ To preview locally, open \`index.html\` in your browser."
 
   deploy-playwright-report:
@@ -112,27 +112,27 @@ jobs:
                     },
                     {
                       "title": "✅ Passed",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').passed || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).passed || '0' }}",
                       "short": true
                     },
                     {
                       "title": "❌ Failed",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').failed || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).failed || '0' }}",
                       "short": true
                     },
                     {
                       "title": "⚠️ Skipped",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').skipped || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).skipped || '0' }}",
                       "short": true
                     },
                     {
                       "title": "🤷 Flaky",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').flaky || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).flaky || '0' }}",
                       "short": true
                     },
                     {
                       "title": "🔢 Total",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary || '{}').total || '0' }}",
+                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).total || '0' }}",
                       "short": true
                     }
                   ]
