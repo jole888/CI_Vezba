@@ -14,6 +14,10 @@ jobs:
   run-playwright-tests:
     runs-on: ubuntu-latest
 
+    # 👇 expose summary output to other jobs
+    outputs:
+      summary: ${{ steps.parse.outputs.summary }}
+
     env:
       TARGET_ENVIRONMENT: sandbox
       EMAIL: ${{ secrets.SANDY_EMAIL }}
@@ -61,7 +65,7 @@ jobs:
           echo "### ✅ Playwright HTML report generated" >> $GITHUB_STEP_SUMMARY
           echo "- 🔗 [View Report on GitHub Pages](https://jole888.github.io/CI_Vezba/index.html)" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 Or download the full report from the [Artifacts section](#artifacts) below." >> $GITHUB_STEP_SUMMARY
-          echo "- 🖥️ To preview locally, open \`index.html\` in your browser." >> $GITHUB_STEP_SUMMARY
+          echo "- 🖥️ To preview locally, open \`index.html\` in your browser."
 
   deploy-playwright-report:
     needs: run-playwright-tests
