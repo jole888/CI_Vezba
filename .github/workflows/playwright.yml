@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      summary: ${{ steps.parse.outputs.summary }}
+      summary: ${{ steps.set-summary.outputs.summary }}
 
     env:
       TARGET_ENVIRONMENT: sandbox
@@ -46,8 +46,12 @@ jobs:
 
       - name: Parse Playwright test summary
         if: always()
-        id: parse
         run: npm run parse-summary
+
+      - name: Set summary output
+        if: always()
+        id: set-summary
+        run: echo "summary=$(cat test-summary.json)" >> $GITHUB_OUTPUT
 
       - name: Upload report as artifact
         if: always()

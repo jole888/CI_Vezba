@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const reportPath = path.join("playwright-report", ".last-run.json");
+const reportPath = path.join("playwright-report", "report.json"); // promenjeno sa .last-run.json
 
 interface Test {
   outcome: "expected" | "unexpected" | "skipped" | "flaky";
@@ -15,6 +15,8 @@ interface Suite {
 interface Manifest {
   suites?: Suite[];
 }
+
+const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
 
 function parseSummary(manifest: Manifest) {
   let total = 0;
@@ -46,15 +48,23 @@ function parseSummary(manifest: Manifest) {
     }
   };
 
-  traverse(manifest.suites || []);
+  if (!manifest?.suites || manifest.suites.length === 0) {
+    console.warn("⚠️ No test suites found in report.json");
+    return emptySummary;
+  }
+
+  traverse(manifest.suites);
   return { total, passed, failed, skipped, flaky };
 }
 
 try {
   if (!fs.existsSync(reportPath)) {
-    const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
     console.warn(`⚠️ Report not found at ${reportPath}`);
     console.log(JSON.stringify(emptySummary));
+    if (process.env.GITHUB_OUTPUT) {
+      // GitHub output multiline vrednosti
+      fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary<<EOF\n${JSON.stringify(emptySummary)}\nEOF\n`);
+    }
     process.exit(0);
   }
 
@@ -62,20 +72,18 @@ try {
   const manifest: Manifest = JSON.parse(data);
   const summary = parseSummary(manifest);
 
-  // Write to disk (optional)
   fs.writeFileSync("test-summary.json", JSON.stringify(summary, null, 2));
 
-  // Output to GitHub Actions if available (safe multiline format)
   if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(
-      process.env.GITHUB_OUTPUT,
-      `summary<<EOF\n${JSON.stringify(summary)}\nEOF\n`
-    );
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary<<EOF\n${JSON.stringify(summary)}\nEOF\n`);
   }
 
-  // Output to STDOUT
   console.log(JSON.stringify(summary));
 } catch (err: any) {
   console.error(`❌ Failed to parse report: ${err.message}`);
+  console.log(JSON.stringify(emptySummary));
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary<<EOF\n${JSON.stringify(emptySummary)}\nEOF\n`);
+  }
   process.exit(1);
 }

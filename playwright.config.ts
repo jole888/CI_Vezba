@@ -1,24 +1,24 @@
-import { defineConfig, devices } from '@playwright/test'
-import dotenv from 'dotenv'
+import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
-const targetEnv = process.env.TARGET_ENVIRONMENT
+const targetEnv = process.env.TARGET_ENVIRONMENT;
 
 switch (targetEnv) {
   case 'sandbox':
-    dotenv.config({ path: '.env.sandy' })
-    break
+    dotenv.config({ path: '.env.sandy' });
+    break;
   case 'staging':
-    dotenv.config({ path: '.env.staging' })
-    break
+    dotenv.config({ path: '.env.staging' });
+    break;
   default:
-    throw new Error(`Unsupported TARGET_ENVIRONMENT: ${targetEnv}`)
+    throw new Error(`Unsupported TARGET_ENVIRONMENT: ${targetEnv}`);
 }
 
 export default defineConfig({
   testDir: './src/e2e/tests',
-  timeout: 30 * 1000, // povećano sa 15 na 30s
+  timeout: 30 * 1000, // 30 sekundi timeout po testu
   expect: {
     timeout: 30 * 1000,
   },
@@ -28,7 +28,7 @@ export default defineConfig({
   workers: process.env.CI ? '100%' : '100%',
   reporter: [
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['json', { outputFile: 'playwright-report/.last-run.json' }]
+    ['json', { outputFile: 'playwright-report/report.json' }] // <-- Važno: JSON report u report.json
   ],
   use: {
     trace: 'retain-on-failure',
@@ -40,7 +40,6 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    // Firefox i WebKit možeš aktivirati ako zatreba
+    // Firefox i WebKit možeš aktivirati po potrebi
   ],
-  outputDir: 'playwright-report',
-})
+});
