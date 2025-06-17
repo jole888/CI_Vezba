@@ -1,13 +1,14 @@
 import prettier from 'eslint-config-prettier'
 import playwright from 'eslint-plugin-playwright'
 import * as path from 'path'
-import tseslint from 'typescript-eslint'
+import tseslint from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
 
 export default [
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
-      parser: tseslint.parser,
+      parser: tsParser,
       parserOptions: {
         project: './tsconfig.json',
         tsconfigRootDir: path.resolve(),
@@ -19,7 +20,7 @@ export default [
       },
     },
     plugins: {
-      '@typescript-eslint': tseslint.plugin,
+      '@typescript-eslint': tseslint,
       playwright,
     },
     rules: {
