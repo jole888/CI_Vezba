@@ -12,24 +12,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/jole888/CI_Vezba/commit/19328af1a02fa090caf82ab1a7c6df938deadec1",
-        "commitHash": "19328af1a02fa090caf82ab1a7c6df938deadec1",
-        "buildHref": "https://github.com/jole888/CI_Vezba/actions/runs/15717169229"
+        "commitHref": "https://github.com/jole888/CI_Vezba/commit/856af7df5c27e76cadbe3a5e9523bb1d8e65243d",
+        "commitHash": "856af7df5c27e76cadbe3a5e9523bb1d8e65243d",
+        "buildHref": "https://github.com/jole888/CI_Vezba/actions/runs/15717293148"
       },
       "gitCommit": {
-        "shortHash": "19328af",
-        "hash": "19328af1a02fa090caf82ab1a7c6df938deadec1",
-        "subject": "ana",
-        "body": "ana\n",
+        "shortHash": "856af7d",
+        "hash": "856af7df5c27e76cadbe3a5e9523bb1d8e65243d",
+        "subject": "kola",
+        "body": "kola\n",
         "author": {
           "name": "jole888",
           "email": "josip.herceg@yahoo.com",
-          "time": 1750191560000
+          "time": 1750191950000
         },
         "committer": {
           "name": "jole888",
           "email": "josip.herceg@yahoo.com",
-          "time": 1750191560000
+          "time": 1750191950000
         },
         "branch": "main"
       },
@@ -63,24 +63,24 @@
         "retries": 1,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/jole888/CI_Vezba/commit/19328af1a02fa090caf82ab1a7c6df938deadec1",
-            "commitHash": "19328af1a02fa090caf82ab1a7c6df938deadec1",
-            "buildHref": "https://github.com/jole888/CI_Vezba/actions/runs/15717169229"
+            "commitHref": "https://github.com/jole888/CI_Vezba/commit/856af7df5c27e76cadbe3a5e9523bb1d8e65243d",
+            "commitHash": "856af7df5c27e76cadbe3a5e9523bb1d8e65243d",
+            "buildHref": "https://github.com/jole888/CI_Vezba/actions/runs/15717293148"
           },
           "gitCommit": {
-            "shortHash": "19328af",
-            "hash": "19328af1a02fa090caf82ab1a7c6df938deadec1",
-            "subject": "ana",
-            "body": "ana\n",
+            "shortHash": "856af7d",
+            "hash": "856af7df5c27e76cadbe3a5e9523bb1d8e65243d",
+            "subject": "kola",
+            "body": "kola\n",
             "author": {
               "name": "jole888",
               "email": "josip.herceg@yahoo.com",
-              "time": 1750191560000
+              "time": 1750191950000
             },
             "committer": {
               "name": "jole888",
               "email": "josip.herceg@yahoo.com",
-              "time": 1750191560000
+              "time": 1750191950000
             },
             "branch": "main"
           },
@@ -133,12 +133,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2514,
+                      "duration": 2491,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-17T20:21:26.036Z",
+                      "startTime": "2025-06-17T20:28:32.670Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -167,7 +167,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "timedOut",
-                      "duration": 30254,
+                      "duration": 30266,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -188,7 +188,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-17T20:21:25.986Z",
+                      "startTime": "2025-06-17T20:28:32.673Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -209,10 +209,10 @@
                       ]
                     },
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 0,
+                      "workerIndex": 4,
+                      "parallelIndex": 1,
                       "status": "timedOut",
-                      "duration": 30243,
+                      "duration": 30252,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -227,13 +227,13 @@
                             "column": 29,
                             "line": 41
                           },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    55 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n   at ../pages/LoginPage.ts:41\n\n  39 |\n  40 |   async clickSigninButton() {\n> 41 |     await this.signInButton.click()\n     |                             ^\n  42 |   }\n  43 |\n  44 |   async wrongEmailPassword() {\n    at LoginPage.clickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:41:29)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:29:21"
+                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    56 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n   at ../pages/LoginPage.ts:41\n\n  39 |\n  40 |   async clickSigninButton() {\n> 41 |     await this.signInButton.click()\n     |                             ^\n  42 |   }\n  43 |\n  44 |   async wrongEmailPassword() {\n    at LoginPage.clickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:41:29)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:29:21"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-17T20:21:59.020Z",
+                      "startTime": "2025-06-17T20:29:07.637Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -278,7 +278,7 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "timedOut",
-                      "duration": 30242,
+                      "duration": 30237,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -293,13 +293,13 @@
                             "column": 29,
                             "line": 41
                           },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    54 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n   at ../pages/LoginPage.ts:41\n\n  39 |\n  40 |   async clickSigninButton() {\n> 41 |     await this.signInButton.click()\n     |                             ^\n  42 |   }\n  43 |\n  44 |   async wrongEmailPassword() {\n    at LoginPage.clickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:41:29)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:35:21"
+                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    55 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n   at ../pages/LoginPage.ts:41\n\n  39 |\n  40 |   async clickSigninButton() {\n> 41 |     await this.signInButton.click()\n     |                             ^\n  42 |   }\n  43 |\n  44 |   async wrongEmailPassword() {\n    at LoginPage.clickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:41:29)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:35:21"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-17T20:21:26.045Z",
+                      "startTime": "2025-06-17T20:28:32.632Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -320,10 +320,10 @@
                       ]
                     },
                     {
-                      "workerIndex": 4,
-                      "parallelIndex": 1,
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 30233,
+                      "duration": 30209,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -338,13 +338,13 @@
                             "column": 29,
                             "line": 41
                           },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    55 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n   at ../pages/LoginPage.ts:41\n\n  39 |\n  40 |   async clickSigninButton() {\n> 41 |     await this.signInButton.click()\n     |                             ^\n  42 |   }\n  43 |\n  44 |   async wrongEmailPassword() {\n    at LoginPage.clickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:41:29)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:35:21"
+                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    56 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n   at ../pages/LoginPage.ts:41\n\n  39 |\n  40 |   async clickSigninButton() {\n> 41 |     await this.signInButton.click()\n     |                             ^\n  42 |   }\n  43 |\n  44 |   async wrongEmailPassword() {\n    at LoginPage.clickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:41:29)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:35:21"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-17T20:21:59.033Z",
+                      "startTime": "2025-06-17T20:29:07.555Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -380,8 +380,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-06-17T20:21:25.229Z",
-    "duration": 64374.333,
+    "startTime": "2025-06-17T20:28:31.869Z",
+    "duration": 66320.84199999999,
     "expected": 1,
     "skipped": 0,
     "unexpected": 2,
