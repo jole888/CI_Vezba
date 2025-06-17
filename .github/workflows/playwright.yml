@@ -14,7 +14,6 @@ jobs:
   run-playwright-tests:
     runs-on: ubuntu-latest
 
-    # 👇 expose summary output to other jobs
     outputs:
       summary: ${{ steps.parse.outputs.summary }}
 
@@ -48,9 +47,7 @@ jobs:
       - name: Parse Playwright test summary
         if: always()
         id: parse
-        run: |
-          SUMMARY=$(node --require ts-node/register parse-playwright-results.ts)
-          echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
+        run: node --require ts-node/register parse-playwright-results.ts
 
       - name: Upload report as artifact
         if: always()
