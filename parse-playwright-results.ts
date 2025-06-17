@@ -3,49 +3,61 @@ import path from "path";
 
 const reportPath = path.join("playwright-report", "report.json");
 
-interface Test {
-  outcome: "expected" | "unexpected" | "skipped" | "flaky";
-}
-
-interface Suite {
-  suites?: Suite[];
-  tests?: Test[];
-}
-
-interface Manifest {
-  suites?: Suite[];
-}
-
 const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
 
-function parseSummary(manifest: Manifest) {
+type TestResult = {
+  status: "passed" | "failed" | "skipped" | "timedOut" | "interrupted" | "flaky";
+};
+
+type Test = {
+  results: TestResult[];
+};
+
+type Spec = {
+  tests: Test[];
+};
+
+type Suite = {
+  suites?: Suite[];
+  specs?: Spec[];
+};
+
+type ReportJson = {
+  suites?: Suite[];
+};
+
+function parseSummary(report: ReportJson) {
   let total = 0;
   let passed = 0;
   let failed = 0;
   let skipped = 0;
   let flaky = 0;
 
-  const traverse = (suites: Suite[]): void => {
+  const traverse = (suites: Suite[]) => {
     for (const suite of suites) {
       if (suite.suites) traverse(suite.suites);
-      for (const test of suite.tests || []) {
-        total++;
-        switch (test.outcome) {
-          case "expected": passed++; break;
-          case "unexpected": failed++; break;
-          case "skipped": skipped++; break;
-          case "flaky": flaky++; break;
+      for (const spec of suite.specs || []) {
+        for (const test of spec.tests || []) {
+          total++;
+          const result = test.results?.[0];
+          if (!result) continue;
+          switch (result.status) {
+            case "passed": passed++; break;
+            case "failed": failed++; break;
+            case "skipped": skipped++; break;
+            case "flaky": flaky++; break;
+          }
         }
       }
     }
   };
 
-  if (!manifest?.suites?.length) {
-    console.warn("⚠️ No test suites found in report.json");
+  if (!report?.suites?.length) {
+    console.warn("⚠️ No suites in report.json");
     return emptySummary;
   }
 
-  traverse(manifest.suites);
+  traverse(report.suites);
   return { total, passed, failed, skipped, flaky };
 }
 
@@ -55,8 +67,7 @@ try {
     : emptySummary;
 
   const summaryString = JSON.stringify(summary);
-
-  fs.writeFileSync("test-summary.json", summaryString); // za ostale korake
+  fs.writeFileSync("test-summary.json", summaryString);
 
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${summaryString}\n`);
