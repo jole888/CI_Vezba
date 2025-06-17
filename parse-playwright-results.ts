@@ -74,8 +74,11 @@ try {
     ? parseSummary(JSON.parse(fs.readFileSync(reportPath, "utf8")))
     : emptySummary;
 
-  const summaryString = JSON.stringify(summary, null, 2);
+  const summaryString = JSON.stringify(summary); // one-line JSON
   fs.writeFileSync("test-summary.json", summaryString);
+
+  console.log("✅ Test summary written to test-summary.json");
+  console.log(summaryString);
 
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${summaryString}\n`);
@@ -85,15 +88,17 @@ try {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `flaky=${summary.flaky}\n`);
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `total=${summary.total}\n`);
   }
-
-  console.log("✅ Test summary written to test-summary.json");
-  console.log(summaryString);
 } catch (err: any) {
   console.error(`❌ Failed to parse report: ${err.message}`);
-  const fallback = JSON.stringify(emptySummary, null, 2);
-  fs.writeFileSync("test-summary.json", fallback);
+  const fallback = JSON.stringify(emptySummary);
+  console.log(fallback);
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${fallback}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=0\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed=0\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `skipped=0\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `flaky=0\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `total=0\n`);
   }
   process.exit(1);
 }

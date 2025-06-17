@@ -1,5 +1,3 @@
----
-# .github/workflows/playwright.yml
 name: Playwright CI Tests
 
 on:
@@ -34,16 +32,17 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Browsers
-        run: npm run install:playwright
+        run: npx playwright install
 
       - name: Run lint
         run: npm run lint
 
       - name: Run tests and generate report
         run: npm run e2e:headless
-        continue-on-error: true
+        continue-on-error: true # omogućava nastavak čak i ako testovi padnu
 
       - name: Parse Playwright test summary
+        id: summary
         if: always()
         run: npm run parse-summary
 
