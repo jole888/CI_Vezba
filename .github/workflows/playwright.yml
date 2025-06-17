@@ -14,9 +14,6 @@ jobs:
   run-playwright-tests:
     runs-on: ubuntu-latest
 
-    outputs:
-      summary: ${{ steps.set-summary.outputs.summary }}
-
     env:
       TARGET_ENVIRONMENT: sandbox
       EMAIL: ${{ secrets.SANDY_EMAIL }}
@@ -48,22 +45,14 @@ jobs:
         if: always()
         run: npm run parse-summary
 
-      - name: Set summary output
-        if: always()
-        id: set-summary
-        run: |
-          {
-            echo 'summary<<EOF'
-            cat test-summary.json
-            echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
-
       - name: Upload report as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report
+          path: |
+            playwright-report
+            test-summary.json
 
       - name: Add HTML report summary
         if: always()
@@ -87,6 +76,12 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report
+
+      - name: Read test summary
+        id: read-summary
+        run: |
+          summary=$(cat playwright-report/test-summary.json)
+          echo "summary=$summary" >> $GITHUB_OUTPUT
 
       - name: Deploy Playwright report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -121,27 +116,27 @@ jobs:
                     },
                     {
                       "title": "✅ Passed",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).passed || '0' }}",
+                      "value": "${{ fromJson(steps.read-summary.outputs.summary).passed || '0' }}",
                       "short": true
                     },
                     {
                       "title": "❌ Failed",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).failed || '0' }}",
+                      "value": "${{ fromJson(steps.read-summary.outputs.summary).failed || '0' }}",
                       "short": true
                     },
                     {
                       "title": "⚠️ Skipped",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).skipped || '0' }}",
+                      "value": "${{ fromJson(steps.read-summary.outputs.summary).skipped || '0' }}",
                       "short": true
                     },
                     {
                       "title": "🤷 Flaky",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).flaky || '0' }}",
+                      "value": "${{ fromJson(steps.read-summary.outputs.summary).flaky || '0' }}",
                       "short": true
                     },
                     {
                       "title": "🔢 Total",
-                      "value": "${{ fromJson(needs.run-playwright-tests.outputs.summary).total || '0' }}",
+                      "value": "${{ fromJson(steps.read-summary.outputs.summary).total || '0' }}",
                       "short": true
                     }
                   ]
