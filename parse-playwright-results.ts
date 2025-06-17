@@ -5,26 +5,26 @@ const reportPath = path.join("playwright-report", "report.json");
 
 const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
 
-type TestResult = {
+interface TestResult {
   status: "passed" | "failed" | "skipped" | "timedOut" | "interrupted" | "flaky";
-};
+}
 
-type Test = {
+interface Test {
   results: TestResult[];
-};
+}
 
-type Spec = {
+interface Spec {
   tests: Test[];
-};
+}
 
-type Suite = {
+interface Suite {
   suites?: Suite[];
   specs?: Spec[];
-};
+}
 
-type ReportJson = {
+interface ReportJson {
   suites?: Suite[];
-};
+}
 
 function parseSummary(report: ReportJson) {
   let total = 0;
@@ -88,10 +88,14 @@ try {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `flaky=${summary.flaky}\n`);
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `total=${summary.total}\n`);
   }
-} catch (err: any) {
-  console.error(`❌ Failed to parse report: ${err.message}`);
+} catch (err: unknown) {
+  let message = "Unknown error";
+  if (err instanceof Error) message = err.message;
+
+  console.error(`❌ Failed to parse report: ${message}`);
   const fallback = JSON.stringify(emptySummary);
   console.log(fallback);
+
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${fallback}\n`);
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=0\n`);
