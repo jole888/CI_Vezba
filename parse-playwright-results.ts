@@ -5,12 +5,8 @@ const reportPath = path.join("playwright-report", "report.json");
 
 const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
 
-type TestResult = {
-  status: "passed" | "failed" | "skipped" | "timedOut" | "interrupted" | "flaky";
-};
-
 type Test = {
-  results: TestResult[];
+  status: "expected" | "unexpected" | "skipped" | "flaky";
 };
 
 type Spec = {
@@ -39,11 +35,9 @@ function parseSummary(report: ReportJson) {
       for (const spec of suite.specs || []) {
         for (const test of spec.tests || []) {
           total++;
-          const result = test.results?.[0];
-          if (!result) continue;
-          switch (result.status) {
-            case "passed": passed++; break;
-            case "failed": failed++; break;
+          switch (test.status) {
+            case "expected": passed++; break;
+            case "unexpected": failed++; break;
             case "skipped": skipped++; break;
             case "flaky": flaky++; break;
           }
@@ -53,7 +47,7 @@ function parseSummary(report: ReportJson) {
   };
 
   if (!report?.suites?.length) {
-    console.warn("⚠️ No suites in report.json");
+    console.warn("⚠️ No suites found in report.json");
     return emptySummary;
   }
 

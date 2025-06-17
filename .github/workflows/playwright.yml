@@ -80,8 +80,11 @@ jobs:
       - name: Read test summary
         id: read-summary
         run: |
-          summary=$(cat playwright-report/test-summary.json)
-          echo "summary=$summary" >> $GITHUB_OUTPUT
+          echo "total=$(jq '.total' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
+          echo "passed=$(jq '.passed' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
+          echo "failed=$(jq '.failed' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
+          echo "skipped=$(jq '.skipped' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
+          echo "flaky=$(jq '.flaky' playwright-report/test-summary.json)" >> $GITHUB_OUTPUT
 
       - name: Deploy Playwright report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -116,27 +119,27 @@ jobs:
                     },
                     {
                       "title": "✅ Passed",
-                      "value": "${{ fromJson(steps.read-summary.outputs.summary).passed || '0' }}",
+                      "value": "${{ steps.read-summary.outputs.passed }}",
                       "short": true
                     },
                     {
                       "title": "❌ Failed",
-                      "value": "${{ fromJson(steps.read-summary.outputs.summary).failed || '0' }}",
+                      "value": "${{ steps.read-summary.outputs.failed }}",
                       "short": true
                     },
                     {
                       "title": "⚠️ Skipped",
-                      "value": "${{ fromJson(steps.read-summary.outputs.summary).skipped || '0' }}",
+                      "value": "${{ steps.read-summary.outputs.skipped }}",
                       "short": true
                     },
                     {
                       "title": "🤷 Flaky",
-                      "value": "${{ fromJson(steps.read-summary.outputs.summary).flaky || '0' }}",
+                      "value": "${{ steps.read-summary.outputs.flaky }}",
                       "short": true
                     },
                     {
                       "title": "🔢 Total",
-                      "value": "${{ fromJson(steps.read-summary.outputs.summary).total || '0' }}",
+                      "value": "${{ steps.read-summary.outputs.total }}",
                       "short": true
                     }
                   ]
