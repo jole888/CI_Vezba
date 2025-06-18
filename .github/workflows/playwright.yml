@@ -39,7 +39,7 @@ jobs:
 
       - name: Run tests and generate report
         run: npm run e2e:headless
-        continue-on-error: true # omogućava nastavak čak i ako testovi padnu
+        continue-on-error: true
 
       - name: Parse Playwright test summary
         id: summary
@@ -85,19 +85,26 @@ jobs:
         id: read-summary
         run: |
           echo "Reading test-summary.json..."
-          cat playwright-report/test-summary.json
+          if [[ -f "playwright-report/test-summary.json" ]]; then
+            total=$(jq -r '.total // 0' playwright-report/test-summary.json)
+            passed=$(jq -r '.passed // 0' playwright-report/test-summary.json)
+            failed=$(jq -r '.failed // 0' playwright-report/test-summary.json)
+            skipped=$(jq -r '.skipped // 0' playwright-report/test-summary.json)
+            flaky=$(jq -r '.flaky // 0' playwright-report/test-summary.json)
 
-          total=$(jq '.total' playwright-report/test-summary.json)
-          passed=$(jq '.passed' playwright-report/test-summary.json)
-          failed=$(jq '.failed' playwright-report/test-summary.json)
-          skipped=$(jq '.skipped' playwright-report/test-summary.json)
-          flaky=$(jq '.flaky' playwright-report/test-summary.json)
-
-          echo "total=$total" >> $GITHUB_OUTPUT
-          echo "passed=$passed" >> $GITHUB_OUTPUT
-          echo "failed=$failed" >> $GITHUB_OUTPUT
-          echo "skipped=$skipped" >> $GITHUB_OUTPUT
-          echo "flaky=$flaky" >> $GITHUB_OUTPUT
+            echo "::set-output name=total::$total"
+            echo "::set-output name=passed::$passed"
+            echo "::set-output name=failed::$failed"
+            echo "::set-output name=skipped::$skipped"
+            echo "::set-output name=flaky::$flaky"
+          else
+            echo "Test summary file not found!"
+            echo "::set-output name=total::0"
+            echo "::set-output name=passed::0"
+            echo "::set-output name=failed::0"
+            echo "::set-output name=skipped::0"
+            echo "::set-output name=flaky::0"
+          fi
 
       - name: Deploy Playwright report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

@@ -14,7 +14,7 @@
     "e2e:chrome-headed": "npx playwright test --project=chromium --headed",
     "e2e:chrome-headless": "npx playwright test --project=chromium",
     "parse-summary": "ts-node parse-playwright-results.ts",
-    "test:ci": "npm run e2e:headless && npm run parse-summary",
+    "test:ci": "npm run install:playwright && npm run e2e:headless && npm run parse-summary",
     "install:playwright": "npx playwright install --with-deps"
   },
   "keywords": [],
@@ -23,7 +23,8 @@
   "dependencies": {
     "@actions/core": "^1.11.1",
     "dotenv": "^16.5.0",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "cross-env": "^7.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",

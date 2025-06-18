@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 
 const reportPath = path.join("playwright-report", "report.json");
+const outputPath = "test-summary.json";
 
 const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
 
@@ -70,39 +71,39 @@ function parseSummary(report: ReportJson) {
 }
 
 try {
-  const summary = fs.existsSync(reportPath)
-    ? parseSummary(JSON.parse(fs.readFileSync(reportPath, "utf8")))
-    : emptySummary;
+  let summary = emptySummary;
 
-  const summaryString = JSON.stringify(summary); // one-line JSON
-  fs.writeFileSync("test-summary.json", summaryString);
+  if (fs.existsSync(reportPath)) {
+    const rawData = fs.readFileSync(reportPath, "utf8");
+    try {
+      const parsedData = JSON.parse(rawData);
+      summary = parseSummary(parsedData);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      console.error("❌ Error parsing report.json, using fallback.");
+    }
+  } else {
+    console.warn("⚠️ report.json not found, using fallback.");
+  }
+
+  const summaryString = JSON.stringify(summary);
+  fs.writeFileSync(outputPath, summaryString);
 
   console.log("✅ Test summary written to test-summary.json");
   console.log(summaryString);
 
   if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${summaryString}\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=${summary.passed}\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed=${summary.failed}\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `skipped=${summary.skipped}\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `flaky=${summary.flaky}\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `total=${summary.total}\n`);
+    const outputData = `
+summary=${summaryString}
+passed=${summary.passed}
+failed=${summary.failed}
+skipped=${summary.skipped}
+flaky=${summary.flaky}
+total=${summary.total}
+`;
+    fs.writeFileSync(process.env.GITHUB_OUTPUT, outputData);
   }
 } catch (err: unknown) {
-  let message = "Unknown error";
-  if (err instanceof Error) message = err.message;
-
-  console.error(`❌ Failed to parse report: ${message}`);
-  const fallback = JSON.stringify(emptySummary);
-  console.log(fallback);
-
-  if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${fallback}\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=0\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed=0\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `skipped=0\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `flaky=0\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `total=0\n`);
-  }
+  console.error(`❌ Unexpected error: ${err instanceof Error ? err.message : "Unknown error"}`);
   process.exit(1);
 }
