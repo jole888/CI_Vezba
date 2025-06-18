@@ -88,7 +88,11 @@ try {
   console.log(summaryString);
 
   if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${summaryString}\n`);
+    // Ovde je važno koristiti višelinijski safe format za JSON
+    fs.appendFileSync(
+      process.env.GITHUB_OUTPUT,
+      `summary<<EOF\n${summaryString}\nEOF\n`
+    );
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=${summary.passed}\n`);
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed=${summary.failed}\n`);
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `skipped=${summary.skipped}\n`);
@@ -106,7 +110,10 @@ try {
   console.log(fallback);
 
   if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${fallback}\n`);
+    fs.appendFileSync(
+      process.env.GITHUB_OUTPUT,
+      `summary<<EOF\n${fallback}\nEOF\n`
+    );
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=0\n`);
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed=0\n`);
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `skipped=0\n`);
