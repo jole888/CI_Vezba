@@ -1,32 +1,45 @@
 import fs from "fs";
 import path from "path";
 
-const reportPath = path.join("playwright-report", "report.json");
-
-const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
-
-interface TestResult {
-  status: "passed" | "failed" | "skipped" | "timedOut" | "interrupted" | "flaky";
-}
-
+// Tip za pojedinačni test
 interface Test {
-  results: TestResult[];
+  outcome: "expected" | "unexpected" | "skipped" | "flaky";
 }
 
-interface Spec {
-  tests: Test[];
-}
-
+// Tip za suite koji može sadržavati pod-suites i testove
 interface Suite {
   suites?: Suite[];
-  specs?: Spec[];
+  tests?: Test[];
 }
 
-interface ReportJson {
+// Glavni tip za .last-run.json fajl
+interface LastRunManifest {
   suites?: Suite[];
 }
 
-function parseSummary(report: ReportJson) {
+// Tip za sažetak koji ćemo upisivati
+interface TestSummary {
+  total: number;
+  passed: number;
+  failed: number;
+  skipped: number;
+  flaky: number;
+}
+
+const reportPath = path.join("playwright-report", ".last-run.json");
+const outputPath = path.join("playwright-report", "test-summary.json");
+
+const emptySummary: TestSummary = {
+  total: 0,
+  passed: 0,
+  failed: 0,
+  skipped: 0,
+  flaky: 0,
+};
+
+function parseSummary(manifest: LastRunManifest): TestSummary {
+  const suites = manifest.suites || [];
+
   let total = 0;
   let passed = 0;
   let failed = 0;
@@ -35,54 +48,71 @@ function parseSummary(report: ReportJson) {
 
   const traverse = (suites: Suite[]) => {
     for (const suite of suites) {
-      if (suite.suites) traverse(suite.suites);
-      for (const spec of suite.specs || []) {
-        for (const test of spec.tests || []) {
-          total++;
-          const result = test.results?.[0];
-          if (!result) continue;
-          switch (result.status) {
-            case "passed":
-              passed++;
-              break;
-            case "failed":
-              failed++;
-              break;
-            case "skipped":
-              skipped++;
-              break;
-            case "flaky":
-              flaky++;
-              break;
-          }
+      if (suite.suites) {
+        traverse(suite.suites);
+      }
+
+      for (const test of suite.tests || []) {
+        total++;
+        switch (test.outcome) {
+          case "expected":
+            passed++;
+            break;
+          case "unexpected":
+            failed++;
+            break;
+          case "skipped":
+            skipped++;
+            break;
+          case "flaky":
+            flaky++;
+            break;
         }
       }
     }
   };
 
-  if (!report?.suites?.length) {
-    console.warn("⚠️ No suites in report.json");
-    return emptySummary;
-  }
+  traverse(suites);
 
-  traverse(report.suites);
   return { total, passed, failed, skipped, flaky };
 }
 
 try {
   const summary = fs.existsSync(reportPath)
-    ? parseSummary(JSON.parse(fs.readFileSync(reportPath, "utf8")))
+    ? parseSummary(JSON.parse(fs.readFileSync(reportPath, "utf8")) as LastRunManifest)
     : emptySummary;
 
   const summaryString = JSON.stringify(summary, null, 2);
-  fs.writeFileSync("test-summary.json", summaryString);
-
-  console.log("✅ Test summary written to test-summary.json");
+  fs.writeFileSync(outputPath, summaryString);
+  console.log("✅ Test summary written to playwright-report/test-summary.json");
   console.log(summaryString);
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (err: any) {
-  console.error(`❌ Failed to parse report: ${err.message}`);
+
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${summaryString}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=${summary.passed}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed=${summary.failed}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `skipped=${summary.skipped}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `flaky=${summary.flaky}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `total=${summary.total}\n`);
+  }
+} catch (err) {
+  if (err instanceof Error) {
+    console.error(`❌ Failed to parse report: ${err.message}`);
+  } else {
+    console.error("❌ Unknown error while parsing report.");
+  }
+
   const fallback = JSON.stringify(emptySummary, null, 2);
-  fs.writeFileSync("test-summary.json", fallback);
+  console.log(fallback);
+
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `summary=${fallback}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `passed=0\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed=0\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `skipped=0\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `flaky=0\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `total=0\n`);
+  }
+
   process.exit(1);
 }

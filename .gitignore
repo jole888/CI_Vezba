@@ -17,5 +17,8 @@ yarn-error.log*
 
 # Test results & reports
 /test-results/
-/playwright-report/
 /blob-report/
+
+# Ignore full report, but keep summary file
+/playwright-report/*
+!/playwright-report/test-summary.json
