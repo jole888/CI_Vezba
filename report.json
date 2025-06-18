@@ -12,24 +12,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/jole888/CI_Vezba/commit/30122790822b1308b27442477c6e9d1ce2d33fb5",
-        "commitHash": "30122790822b1308b27442477c6e9d1ce2d33fb5",
-        "buildHref": "https://github.com/jole888/CI_Vezba/actions/runs/15732249449"
+        "commitHref": "https://github.com/jole888/CI_Vezba/commit/81c194699c83a3ad0d634e85c92a15ecc39f6944",
+        "commitHash": "81c194699c83a3ad0d634e85c92a15ecc39f6944",
+        "buildHref": "https://github.com/jole888/CI_Vezba/actions/runs/15732433260"
       },
       "gitCommit": {
-        "shortHash": "3012279",
-        "hash": "30122790822b1308b27442477c6e9d1ce2d33fb5",
-        "subject": "jjjjj",
-        "body": "jjjjj\n",
+        "shortHash": "81c1946",
+        "hash": "81c194699c83a3ad0d634e85c92a15ecc39f6944",
+        "subject": "iii",
+        "body": "iii\n",
         "author": {
           "name": "jole888",
           "email": "josip.herceg@yahoo.com",
-          "time": 1750248112000
+          "time": 1750248625000
         },
         "committer": {
           "name": "jole888",
           "email": "josip.herceg@yahoo.com",
-          "time": 1750248112000
+          "time": 1750248625000
         },
         "branch": "main"
       },
@@ -63,24 +63,24 @@
         "retries": 0,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/jole888/CI_Vezba/commit/30122790822b1308b27442477c6e9d1ce2d33fb5",
-            "commitHash": "30122790822b1308b27442477c6e9d1ce2d33fb5",
-            "buildHref": "https://github.com/jole888/CI_Vezba/actions/runs/15732249449"
+            "commitHref": "https://github.com/jole888/CI_Vezba/commit/81c194699c83a3ad0d634e85c92a15ecc39f6944",
+            "commitHash": "81c194699c83a3ad0d634e85c92a15ecc39f6944",
+            "buildHref": "https://github.com/jole888/CI_Vezba/actions/runs/15732433260"
           },
           "gitCommit": {
-            "shortHash": "3012279",
-            "hash": "30122790822b1308b27442477c6e9d1ce2d33fb5",
-            "subject": "jjjjj",
-            "body": "jjjjj\n",
+            "shortHash": "81c1946",
+            "hash": "81c194699c83a3ad0d634e85c92a15ecc39f6944",
+            "subject": "iii",
+            "body": "iii\n",
             "author": {
               "name": "jole888",
               "email": "josip.herceg@yahoo.com",
-              "time": 1750248112000
+              "time": 1750248625000
             },
             "committer": {
               "name": "jole888",
               "email": "josip.herceg@yahoo.com",
-              "time": 1750248112000
+              "time": 1750248625000
             },
             "branch": "main"
           },
@@ -93,7 +93,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 60000
+        "timeout": 90000
       }
     ],
     "shard": null,
@@ -123,7 +123,7 @@
               "tags": [],
               "tests": [
                 {
-                  "timeout": 60000,
+                  "timeout": 90000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -133,12 +133,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2598,
+                      "duration": 2468,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-18T12:02:28.031Z",
+                      "startTime": "2025-06-18T12:10:59.590Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -157,7 +157,7 @@
               "tags": [],
               "tests": [
                 {
-                  "timeout": 60000,
+                  "timeout": 90000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -167,14 +167,14 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "timedOut",
-                      "duration": 60280,
+                      "duration": 90318,
                       "error": {
-                        "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                        "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
                       },
                       "errors": [
                         {
-                          "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                          "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
                         },
                         {
                           "location": {
@@ -182,13 +182,13 @@
                             "column": 29,
                             "line": 50
                           },
-                          "message": "Error: locator.click: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    112 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m        - element is not enabled\u001b[22m\n\u001b[2m      - retrying click action\u001b[22m\n\u001b[2m        - waiting 500ms\u001b[22m\n\n\n   at ../pages/LoginPage.ts:50\n\n  48 |   // Za negativne testove – pokušava klik bez čekanja (ali i dalje Playwright neće kliknuti ako je disabled)\n  49 |   async forceClickSigninButton() {\n> 50 |     await this.signInButton.click();\n     |                             ^\n  51 |   }\n  52 |\n  53 |   async wrongEmailPassword() {\n    at LoginPage.forceClickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:50:29)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:28:21"
+                          "message": "Error: locator.click: Test timeout of 90000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    171 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m        - element is not enabled\u001b[22m\n\u001b[2m      - retrying click action\u001b[22m\n\u001b[2m        - waiting 500ms\u001b[22m\n\n\n   at ../pages/LoginPage.ts:50\n\n  48 |   // Za negativne testove – pokušava klik bez čekanja (ali i dalje Playwright neće kliknuti ako je disabled)\n  49 |   async forceClickSigninButton() {\n> 50 |     await this.signInButton.click();\n     |                             ^\n  51 |   }\n  52 |\n  53 |   async wrongEmailPassword() {\n    at LoginPage.forceClickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:50:29)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:28:21"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-18T12:02:28.058Z",
+                      "startTime": "2025-06-18T12:10:59.666Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -228,7 +228,7 @@
               "tags": [],
               "tests": [
                 {
-                  "timeout": 60000,
+                  "timeout": 90000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -238,7 +238,7 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11836,
+                      "duration": 12298,
                       "error": {
                         "message": "Error: \u001b[31mTimed out 10000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeEnabled\u001b[2m()\u001b[22m\n\nLocator: locator('#submit-btn')\nExpected: enabled\nReceived: disabled\nCall log:\n\u001b[2m  - Expect \"toBeEnabled\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    14 × locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"disabled\"\u001b[22m\n",
                         "stack": "Error: \u001b[31mTimed out 10000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeEnabled\u001b[2m()\u001b[22m\n\nLocator: locator('#submit-btn')\nExpected: enabled\nReceived: disabled\nCall log:\n\u001b[2m  - Expect \"toBeEnabled\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#submit-btn')\u001b[22m\n\u001b[2m    14 × locator resolved to <button disabled type=\"button\" id=\"submit-btn\" _ngcontent-ng-c2248751701=\"\" class=\"btn btn-primary w-100\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"disabled\"\u001b[22m\n\n    at LoginPage.clickSigninButton (/home/runner/work/CI_Vezba/CI_Vezba/src/e2e/pages/LoginPage.ts:44:37)\n    at /home/runner/work/CI_Vezba/CI_Vezba/src/e2e/tests/login.spec.ts:34:21",
@@ -262,7 +262,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-18T12:02:28.027Z",
+                      "startTime": "2025-06-18T12:10:59.654Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -308,8 +308,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-06-18T12:02:27.241Z",
-    "duration": 61632.208,
+    "startTime": "2025-06-18T12:10:58.834Z",
+    "duration": 95176.876,
     "expected": 1,
     "skipped": 0,
     "unexpected": 2,
