@@ -118,16 +118,24 @@ jobs:
               "attachments": [
                 {
                   "color": "${{ needs.run-playwright-tests.result == 'success' && 'good' || 'danger' }}",
-                  "title": "📄 View Full Report",
-                  "title_link": "https://jole888.github.io/CI_Vezba/index.html",
                   "fields": [
-                    { "title": "Status", "value": "${{ needs.run-playwright-tests.result }}", "short": true },
-                    { "title": "Branch", "value": "${{ github.ref }}", "short": true },
                     { "title": "✅ Passed", "value": "${{ steps.read-summary.outputs.passed }}", "short": true },
                     { "title": "❌ Failed", "value": "${{ steps.read-summary.outputs.failed }}", "short": true },
                     { "title": "⚠️ Skipped", "value": "${{ steps.read-summary.outputs.skipped }}", "short": true },
                     { "title": "🤷 Flaky", "value": "${{ steps.read-summary.outputs.flaky }}", "short": true },
                     { "title": "🔢 Total", "value": "${{ steps.read-summary.outputs.total }}", "short": true }
+                  ],
+                  "actions": [
+                    {
+                      "type": "button",
+                      "text": "🌐 View HTML Report",
+                      "url": "https://jole888.github.io/CI_Vezba/index.html"
+                    },
+                    {
+                      "type": "button",
+                      "text": "📥 Download Report Artifact",
+                      "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }
                   ]
                 }
               ]
