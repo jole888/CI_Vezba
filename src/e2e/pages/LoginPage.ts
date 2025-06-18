@@ -34,7 +34,9 @@ export class LoginPage {
 
   async typeEmailandPassword(email: string, password: string) {
     await this.emailField.fill(email);
+    await this.emailField.dispatchEvent('input');
     await this.passwordField.fill(password);
+    await this.passwordField.dispatchEvent('input');
   }
 
   // Za pozitivne testove – čeka da dugme bude enabled
@@ -43,7 +45,7 @@ export class LoginPage {
     await this.signInButton.click();
   }
 
-  // Za negativne testove – klik bez očekivanja
+  // Za negativne testove – pokušava klik bez čekanja (ali i dalje Playwright neće kliknuti ako je disabled)
   async forceClickSigninButton() {
     await this.signInButton.click();
   }

@@ -7,7 +7,7 @@ test.describe('Log In tests', () => {
 
   const login_email = process.env.EMAIL as string;
   const login_password = process.env.PASSWORD as string;
-  const url = process.env.URL ?? "";
+  const url = process.env.URL ?? '';
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
@@ -18,20 +18,20 @@ test.describe('Log In tests', () => {
   });
 
   test('Negative Log In, Wrong Email', async () => {
-    await loginPage.typeEmailandPassword('wqwqwq@sa.sa', login_password);
-    await loginPage.forceClickSigninButton(); // bez očekivanja da je enabled
-    await loginPage.wrongEmailPassword(); // očekuješ error
+    await loginPage.typeEmailandPassword('wrong@email.com', login_password);
+    await loginPage.forceClickSigninButton();
+    await loginPage.wrongEmailPassword();
   });
 
   test('Negative Log In, Wrong Password', async () => {
-    await loginPage.typeEmailandPassword(login_email, 'login_password');
-    await loginPage.forceClickSigninButton(); // bez čekanja enable
-    await loginPage.wrongEmailPassword(); // očekuješ error
+    await loginPage.typeEmailandPassword(login_email, 'wrong-password');
+    await loginPage.forceClickSigninButton();
+    await loginPage.wrongEmailPassword();
   });
 
   test('Positive Log In', async () => {
     await loginPage.typeEmailandPassword(login_email, login_password);
-    await loginPage.clickSigninButton(); // sa čekanjem enabled
+    await loginPage.clickSigninButton();
     await projectsPage.loadPage();
   });
 });
