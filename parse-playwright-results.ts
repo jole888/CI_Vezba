@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 
 const reportPath = path.join("playwright-report", "report.json");
-const outputPath = "test-summary.json";
 
 const emptySummary = { total: 0, passed: 0, failed: 0, skipped: 0, flaky: 0 };
 
@@ -71,39 +70,19 @@ function parseSummary(report: ReportJson) {
 }
 
 try {
-  let summary = emptySummary;
+  const summary = fs.existsSync(reportPath)
+    ? parseSummary(JSON.parse(fs.readFileSync(reportPath, "utf8")))
+    : emptySummary;
 
-  if (fs.existsSync(reportPath)) {
-    const rawData = fs.readFileSync(reportPath, "utf8");
-    try {
-      const parsedData = JSON.parse(rawData);
-      summary = parseSummary(parsedData);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      console.error("❌ Error parsing report.json, using fallback.");
-    }
-  } else {
-    console.warn("⚠️ report.json not found, using fallback.");
-  }
-
-  const summaryString = JSON.stringify(summary);
-  fs.writeFileSync(outputPath, summaryString);
+  const summaryString = JSON.stringify(summary, null, 2);
+  fs.writeFileSync("test-summary.json", summaryString);
 
   console.log("✅ Test summary written to test-summary.json");
   console.log(summaryString);
-
-  if (process.env.GITHUB_OUTPUT) {
-    const outputData = `
-summary=${summaryString}
-passed=${summary.passed}
-failed=${summary.failed}
-skipped=${summary.skipped}
-flaky=${summary.flaky}
-total=${summary.total}
-`;
-    fs.writeFileSync(process.env.GITHUB_OUTPUT, outputData);
-  }
-} catch (err: unknown) {
-  console.error(`❌ Unexpected error: ${err instanceof Error ? err.message : "Unknown error"}`);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+} catch (err: any) {
+  console.error(`❌ Failed to parse report: ${err.message}`);
+  const fallback = JSON.stringify(emptySummary, null, 2);
+  fs.writeFileSync("test-summary.json", fallback);
   process.exit(1);
 }

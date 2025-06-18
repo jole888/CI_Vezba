@@ -39,12 +39,15 @@ jobs:
 
       - name: Run tests and generate report
         run: npm run e2e:headless
-        continue-on-error: true # omogućava nastavak čak i ako testovi padnu
+        continue-on-error: true
 
       - name: Parse Playwright test summary
-        id: summary
         if: always()
         run: npm run parse-summary
+
+      - name: Show test summary contents
+        if: always()
+        run: cat test-summary.json
 
       - name: Upload report as artifact
         if: always()
