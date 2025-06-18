@@ -1,5 +1,4 @@
 import { test } from '@playwright/test';
-
 import { LoginPage, ProjectsPage } from '../pages';
 
 test.describe('Log In tests', () => {
@@ -20,19 +19,19 @@ test.describe('Log In tests', () => {
 
   test('Negative Log In, Wrong Email', async () => {
     await loginPage.typeEmailandPassword('wqwqwq@sa.sa', login_password);
-    await loginPage.clickSigninButton();
-    await loginPage.wrongEmailPassword();
+    await loginPage.forceClickSigninButton(); // bez očekivanja da je enabled
+    await loginPage.wrongEmailPassword(); // očekuješ error
   });
 
   test('Negative Log In, Wrong Password', async () => {
     await loginPage.typeEmailandPassword(login_email, 'login_password');
-    await loginPage.clickSigninButton();
-    await loginPage.wrongEmailPassword();
+    await loginPage.forceClickSigninButton(); // bez čekanja enable
+    await loginPage.wrongEmailPassword(); // očekuješ error
   });
 
   test('Positive Log In', async () => {
     await loginPage.typeEmailandPassword(login_email, login_password);
-    await loginPage.clickSigninButton();
+    await loginPage.clickSigninButton(); // sa čekanjem enabled
     await projectsPage.loadPage();
   });
 });
