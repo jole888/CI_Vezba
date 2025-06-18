@@ -38,6 +38,7 @@ export class LoginPage {
   }
 
   async clickSigninButton() {
+    await expect(this.signInButton).toBeEnabled({ timeout: 10000 });
     await this.signInButton.click()
   }
 

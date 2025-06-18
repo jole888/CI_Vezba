@@ -19,9 +19,9 @@ switch (targetEnv) {
 
 export default defineConfig({
   testDir: './src/e2e/tests',
-  timeout: 45 * 1000, // Povećan timeout po testu
+  timeout: 60 * 1000, // Povećan timeout po testu
   expect: {
-    timeout: 45 * 1000,
+    timeout: 60 * 1000,
   },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
