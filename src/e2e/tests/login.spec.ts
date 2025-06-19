@@ -19,18 +19,22 @@ test.describe('Log In tests', () => {
 
   test('Negative Log In, Wrong Email', async () => {
     await loginPage.typeEmailandPassword('wrong@email.com', login_password);
-    await loginPage.forceClickSigninButton();
+    await loginPage.clickSigninButton(); // koristi "forceClick" bez čekanja
     await loginPage.wrongEmailPassword();
   });
 
   test('Negative Log In, Wrong Password', async () => {
     await loginPage.typeEmailandPassword(login_email, 'wrong-password');
-    await loginPage.forceClickSigninButton();
+    await loginPage.clickSigninButton();
     await loginPage.wrongEmailPassword();
   });
 
   test('Positive Log In', async () => {
     await loginPage.typeEmailandPassword(login_email, login_password);
+
+    // ⚠️ Čeka da dugme za login postane enabled — kritično za CI
+    await loginPage.waitForSubmitButtonEnabled();
+
     await loginPage.clickSigninButton();
     await projectsPage.loadPage();
   });
